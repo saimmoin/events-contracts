@@ -3,17 +3,15 @@ pragma solidity ^0.8.22;
 
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+// import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@uniswap/v2-periphery/contracts/libraries/UniswapV2OracleLibrary.sol";
 import "./FullMath.sol";
 import "./IOracle.sol";
-// import "./IERC20.sol";
 interface IERC20 {
     function decimals() external view returns (uint8);
 }
 contract Oracle is IOracle {
     using FixedPoint for *;
-    using SafeMath for *;
 
     address public constant WMATIC = address(0);
     address public constant ALPHA = address(0);
@@ -70,7 +68,7 @@ contract Oracle is IOracle {
 
         if (
             commulativeAveragePrice[token] == 0 ||
-            ((uint256(block.timestamp)).sub(lastTokenTimestamp[token])) >=
+            ((uint256(block.timestamp) - uint256(lastTokenTimestamp[token]))) >=
             1 minutes
         ) {
             setValues(token);
@@ -91,7 +89,7 @@ contract Oracle is IOracle {
                 return 0;
             }
             uint8 decimals = IERC20(token).decimals();
-            price = (ethPerUSDT.mul(10 ** decimals)).div(ethPerToken);
+            price = (ethPerUSDT * (10 ** decimals)) / ethPerToken;
             emit AssetValue(price, block.timestamp);
             return price;
         }
@@ -100,15 +98,17 @@ contract Oracle is IOracle {
     function fetchAlphaPrice() external override returns (uint256 price) {
         if (
             commulativeAveragePrice[ALPHA] == 0 ||
-            ((uint256(block.timestamp)).sub(lastTokenTimestamp[ALPHA])) >=
+            ((uint256(block.timestamp) - uint256(lastTokenTimestamp[ALPHA]))) >=
             3 minutes
         ) {
             setValues(ALPHA);
         }
 
-        uint32 timeElapsed = uint32((lastTokenTimestamp[ALPHA]).sub(
-            tokenToTimestampLast[ALPHA]
-        ));
+        uint32 timeElapsed = uint32(
+            (uint256(lastTokenTimestamp[ALPHA]) -
+                uint256(tokenToTimestampLast[ALPHA]))
+        );
+
         price = _calculate(
             commulativeETHPrice[ALPHA],
             commulativeAveragePrice[ALPHA],
@@ -126,9 +126,9 @@ contract Oracle is IOracle {
             return 0;
         }
 
-        uint256 timeElapsed = uint256(lastTokenTimestamp[token]).sub(
-            tokenToTimestampLast[token]
-        );
+        uint256 timeElapsed = uint256(lastTokenTimestamp[token]) -
+            uint256(tokenToTimestampLast[token]);
+
         ethPerToken = _calculate(
             commulativeETHPriceReserve[token],
             commulativeAveragePriceReserve[token],
@@ -144,7 +144,7 @@ contract Oracle is IOracle {
         address token
     ) public view returns (uint256 assetValue) {
         FixedPoint.uq112x112 memory priceTemp = FixedPoint.uq112x112(
-            uint224((latestCumulativePrice.sub(oldCumulativePrice)).div(timeElapsed))
+            uint224((latestCumulativePrice - oldCumulativePrice) / timeElapsed)
         );
         uint256 decimals = IERC20(token).decimals();
         assetValue = priceTemp.mul(10 ** decimals).decode144();

@@ -8,14 +8,6 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {Ticket} from "./IEvent.sol";
 
 contract EventTicketing is ERC721, ERC721URIStorage, Ownable {
-    struct Ticket {
-        string name;
-        string description;
-        string image;
-        string date;
-        string time;
-        uint256 ticketPrice;
-    }
 
     Ticket[] public tickets;
 
@@ -25,10 +17,10 @@ contract EventTicketing is ERC721, ERC721URIStorage, Ownable {
 
     constructor(
         address initialOwner
-    ) ERC721("Event Ticketing", "ETG") Ownable() {}
+    ) ERC721("Event Ticketing", "ETG") Ownable(initialOwner) {}
 
-    function setBaseURI(string memory _baseURI) external {
-        baseURI = _baseURI;
+    function setBaseURI(string memory baseURI_) external {
+        baseURI = baseURI_;
     }
 
     function _safeMint(address to, string memory uri) internal {
