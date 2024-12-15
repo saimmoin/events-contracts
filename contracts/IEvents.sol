@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
+
+import "./IOracle.sol";
+
 pragma solidity ^0.8.22;
 
-interface IEvent {
+interface IEvents {
     struct Ticket {
         uint256 seatNo;
         uint256 eventId;
@@ -50,7 +53,7 @@ interface IEvent {
         string category;
     }
 
-    event EventCreated(uint256 eventId, string name, address owner, Event);
+    event EventCreated(uint256 eventId, address owner, Event);
     event SoldTicketDetails(
         SoldTicket,
         address owner,
