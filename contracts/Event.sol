@@ -10,8 +10,8 @@ contract Event is Ownable, IEvents, ReentrancyGuard {
 
     IOracle public oracle;
 
-    mapping(uint256 => Event) public events;
-    mapping(address => uint256) public ownedEvents;
+    mapping(uint256 => EventDetails) public events;
+    mapping(address => uint256[]) public ownedEvents;
     uint256 public eventId;
 
     modifier onlyEventOwner(uint256 _eventId) {
@@ -24,7 +24,12 @@ contract Event is Ownable, IEvents, ReentrancyGuard {
         _;
     }
 
-    function createEvent(Event memory _event) public goodTime(_event.time) {
+    modifier eventExists(uint256 _eventId) {
+        require(_eventId <= eventId, "Event does not exist");
+        _;
+    }
+
+    function createEvent(EventDetails memory _event) public goodTime(_event.time) {
         eventId++;
         require(_event.owner == _msgSender(), "Not the event owner");
         require(_event.totalQntySold == 0, "Event already created");
@@ -51,7 +56,11 @@ contract Event is Ownable, IEvents, ReentrancyGuard {
         }
         require(_event.totalQuantity == _totalTktQnty, "Invalid quantity");
         events[eventId] = _event;
-        ownedEvents[msg.sender] = eventId;
+        ownedEvents[msg.sender].push(eventId);
         emit EventCreated(eventId, msg.sender, _event);
+    }
+
+    function buyTicket(BuyTicket memory _buyTicket) public eventExists(_buyTicket.eventId) goodTime(events[_buyTicket.eventId].time) {
+        
     }
 }

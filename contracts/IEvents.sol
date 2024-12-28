@@ -12,7 +12,7 @@ interface IEvents {
         string eventLocation;
     }
 
-    struct Event {
+    struct EventDetails {
         bool oneTimeBuy; // Single purchase restriction
         bool token; // Paid/Free event flag
         bool onsite; // Physical/Virtual designation
@@ -33,11 +33,12 @@ interface IEvents {
         string[] categories; // Category names
     }
 
-    event TicketPurchased(
+    event BuyTicket(
         uint256 eventId,
         address buyer,
         uint256 categoryIndex,
-        uint256 quantity
+        uint256 quantity,
+        string boughtLocation
     );
 
     struct SoldTicket {
@@ -53,7 +54,7 @@ interface IEvents {
         string category;
     }
 
-    event EventCreated(uint256 eventId, address owner, Event);
+    event EventCreated(uint256 eventId, address owner, EventDetails eventDetails);
     event SoldTicketDetails(
         SoldTicket,
         address owner,
