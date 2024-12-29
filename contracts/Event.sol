@@ -4,6 +4,8 @@ pragma solidity ^0.8.22;
 import "./IEvents.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./EventTicket.sol";
+import "@openzeppelin/contracts/utils/Base64.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 interface IERC20 {
     function transferFrom(
@@ -200,7 +202,31 @@ contract Event is IEvents, ReentrancyGuard, EventTicket {
         );
 
         sendAmount(_event.token, _event.owner, _alphaPrice, token);
-        _safeMint(_msgSender(), _ticketId);
+        string memory json = Base64.encode(
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{"name": "',
+                        _event.name,
+                        '", ',
+                        '"description": "',
+                        string.concat(
+                            _event.location,
+                            " - ",
+                            _event.categories[_buyTicket.categoryIndex]
+                        ),
+                        '", ',
+                        '"image": "',
+                        _event.ipfsHash,
+                        '"}'
+                    )
+                )
+            )
+        );
+        string memory finalTokenUri = string(
+            abi.encodePacked("data:application/json;base64,", json)
+        );
+        _safeMint(_msgSender(), finalTokenUri);
     }
 
     function sendAmount(
