@@ -1,22 +1,36 @@
-/** @format */
-
 const hre = require("hardhat");
 
 async function main() {
-  const ChainConnect = await hre.ethers.getContractFactory("ChainConnect");
-  const chainConnect = await ChainConnect.deploy();
-  await chainConnect.deployed();
-  console.log("Contract Deployed To: ", chainConnect.address);
+  const [deployer] = await hre.ethers.getSigners();
+  await deployAlpha(deployer.address);
+  await deployEvent(deployer.address);
+  await deployOracle();
 }
 
-const runMain = async () => {
-  try {
-    await main();
-    process.exit(0);
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-};
+async function deployAlpha(address) {
+  const Alpha = await hre.ethers.getContractFactory("Alpha");
+  const alpha = await Alpha.deploy(address);
+  await alpha.deployed();
+  console.log("Alpha deployed to:", alpha.address);
+}
 
-runMain();
+async function deployEvent(address) {
+  const Event = await hre.ethers.getContractFactory("Event");
+  const event = await Event.deploy(address);
+  await event.deployed();
+  console.log("Event deployed to:", event.address);
+}
+
+async function deployOracle() {
+  const Oracle = await hre.ethers.getContractFactory("Oracle");
+  const oracle = await Oracle.deploy();
+  await oracle.deployed();
+  console.log("Oracle deployed to:", oracle.address);
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

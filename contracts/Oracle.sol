@@ -33,7 +33,7 @@ contract Oracle is IOracle {
 
     constructor() {
         factoryInterface = IUniswapV2Factory(UNISWAP_V2_FACTORY);
-        setValues(USDT);
+        //setValues(USDT);
     }
 
     function setValues(address token) public {

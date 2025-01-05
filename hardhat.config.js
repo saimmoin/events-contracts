@@ -15,8 +15,8 @@ module.exports = {
     },
   },
   networks: {
-    mumbai: {
-      url: "https://polygon-mumbai.g.alchemy.com/v2/OVZbMpDeon6wu0xPYvGvm-t3_6jDTXjm",
+    aurora: {
+      url: "https://testnet.aurora.dev",
       accounts: [PRIVATE_KEY],
     },
   },
