@@ -2,7 +2,7 @@
 
 require("@nomiclabs/hardhat-waffle");
 const { version } = require("ethers");
-const { PRIVATE_KEY } = require("./evn");
+const { PRIVATE_KEY } = require("./env");
 
 module.exports = {
   solidity: {
@@ -15,9 +15,14 @@ module.exports = {
     },
   },
   networks: {
-    aurora: {
-      url: "https://testnet.aurora.dev",
+    bera: {
+      url: "https://bartio.rpc.berachain.com",
       accounts: [PRIVATE_KEY],
+    },
+  },
+  etherscan: {
+    apiKey: {
+      berachainBartio: "berachainBartio",
     },
   },
 };

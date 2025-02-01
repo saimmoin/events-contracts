@@ -1,10 +1,16 @@
+/** @format */
+
 const hre = require("hardhat");
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
+  // get balance of deployer
+  const balance = await deployer.getBalance();
+  console.log("Deploying the contracts with account: ", deployer.address);
+  console.log("Account balance: ", hre.ethers.utils.formatEther(balance));
   await deployAlpha(deployer.address);
-  await deployEvent(deployer.address);
-  await deployOracle();
+  // await deployEvent(deployer.address);
+  // await deployOracle();
 }
 
 async function deployAlpha(address) {
