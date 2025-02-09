@@ -44,7 +44,7 @@ The Event contract is used to manage the creation, sale, and transfer of tickets
 Contract Address: `0x52aaef799de8089FfCA08be7406F6C5F067D10B3`
 
 ### Oracle Contract
-The Oracle contract serves as the bridge between the blockchain and external data sources. It fetches the required data such as ticket prices, event details, and other important information.
+An extended implementation of Uniswap v2 oracle with customized price fetching of only whitelisted tokens.
 
 Contract Address: `0x8ca50D0fe94ca37ecCf468abe6960663c75cAb76`
 
