@@ -13,13 +13,12 @@ interface IERC20 {
 contract Oracle is IOracle {
     using FixedPoint for *;
 
-    address public constant ALPHA = address(0);
-    address public constant WETH = 0x7507c1dc16935B82698e4C63f2746A2fCf994dF8;
-    address public constant USDC = 0xd6D83aF58a19Cd14eF3CF6fe848C9A4d21e5727c;
-    address public constant USDT = 0x0E4aaF1351de4c0264C5c7056Ef3777b41BD8e03; // HONEY stable coin
+    address public constant ALPHA = 0x2E224d6f7C1858cf9572393bd1f29917d8A604c0;
+    address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    address public constant USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48;
+    address public constant USDT = 0xdAC17F958D2ee523a2206206994597C13D831ec7; // HONEY stable coin
 
-    address public constant UNISWAP_V2_FACTORY =
-        0xb08Bfed214ba87d5d5D07B7DA573010016C44488;
+    address public constant UNISWAP_V2_FACTORY = 0xB7f907f7A9eBC822a80BD25E224be42Ce0A698A0;
 
     IUniswapV2Factory factoryInterface;
     mapping(address => uint256) public commulativeAveragePrice;
@@ -34,6 +33,10 @@ contract Oracle is IOracle {
     constructor() {
         factoryInterface = IUniswapV2Factory(UNISWAP_V2_FACTORY);
         //setValues(USDT);
+    }
+
+    function setV2FactoryAddress(address _factory) external {
+        factoryInterface = IUniswapV2Factory(_factory);
     }
 
     function setValues(address token) public {

@@ -1,3 +1,3 @@
 /** @format */
 
-module.exports = ["0x18614b51ca6097b1b4c5e2075c111f18ce3cb868"];
+module.exports = ["0x6C800E831aEcfB4aF4D9f09a8093467F01A48a9A"];

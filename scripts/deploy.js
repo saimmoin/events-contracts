@@ -8,8 +8,8 @@ async function main() {
   const balance = await deployer.getBalance();
   console.log("Deploying the contracts with account: ", deployer.address);
   console.log("Account balance: ", hre.ethers.utils.formatEther(balance));
-  await deployAlpha(deployer.address);
-  // await deployEvent(deployer.address);
+  // await deployAlpha(deployer.address);
+  await deployEvent(deployer.address);
   // await deployOracle();
 }
 

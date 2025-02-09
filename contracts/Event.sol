@@ -17,8 +17,8 @@ interface IERC20 {
 }
 
 contract Event is IEvents, ReentrancyGuard, EventTicket {
-    IOracle public oracle;
-    address public alphaAddress;
+    IOracle public oracle = IOracle(0x8ca50D0fe94ca37ecCf468abe6960663c75cAb76);
+    address public alphaAddress = 0x2E224d6f7C1858cf9572393bd1f29917d8A604c0;
     address private adminAddress;
 
     mapping(uint256 => Event) public events;

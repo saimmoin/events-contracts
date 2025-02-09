@@ -1,7 +1,8 @@
 /** @format */
 
 require("@nomiclabs/hardhat-waffle");
-const { version } = require("ethers");
+require("@nomicfoundation/hardhat-verify");
+
 const { PRIVATE_KEY } = require("./env");
 
 module.exports = {
@@ -19,10 +20,16 @@ module.exports = {
       url: "https://bartio.rpc.berachain.com",
       accounts: [PRIVATE_KEY],
     },
+    auroraTestnet: {
+      url: "https://testnet.aurora.dev",
+      accounts: [PRIVATE_KEY],
+    },
+    sepolia: {
+      url: "https://eth-sepolia.public.blastapi.io",
+      accounts: [PRIVATE_KEY],
+    },
   },
   etherscan: {
-    apiKey: {
-      berachainBartio: "berachainBartio",
-    },
+    apiKey: "4GSI1E1IH2RGQ341M9G81ZBUIBKMSYGPZV",
   },
 };
