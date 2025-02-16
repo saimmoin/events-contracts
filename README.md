@@ -27,13 +27,14 @@ Key features of the platform:
 
 ## Technologies Used
 - **Blockchain**: Ethereum Smart Contracts (Solidity)
-- **Oracle**: Custom Oracle to fetch real-time data
-- **Token**: Alpha Token (ERC-20)
+- **Custom**: Custom smart contract for events creation and ticket sales.
+- **Token**: Openzeppelin ERC-20 and Uniswap V2 price oracle.
 - **GraphQL Subgraph**: For querying event-related data
-- **Web3.js**: For interacting with Ethereum from the frontend
-- **IPFS**: To store off-chain data related to the events and tickets
+- **hardhat**: For interacting with Ethereum from the frontend
+- **ethers.js**: To store off-chain data related to the events and tickets.
 
 ## Smart Contracts
+> Note: The smart contracts are deployed on the Sepolia testnet.
 
 ### Event Contract
 The Event contract is used to manage the creation, sale, and transfer of tickets for specific events. It includes functionalities such as:
